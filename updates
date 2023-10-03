@@ -1,0 +1,8 @@
+def getVMLoginInfo(s):
+    global hst, usr
+    print("Get session user info")
+    for session in s.content.sessionManager.sessionList:   # stolen from sessions_list.py
+        if "0{.userName}" != 'VSPHERE.LOCAL':
+            shortUser = "0{.userName}".split('@')
+            print("You are logged in to "+hst+" as "+shortUser[0]+" from "+"{0.ipAddress}")
+            return    # return after you find the first in case there are old sessions not closed
