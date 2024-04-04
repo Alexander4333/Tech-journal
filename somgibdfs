@@ -1,2 +1,35 @@
- Add-DNSServerResourceRecord -A -Name "xubuntu-WAN" -CreatePtr -PtrDomainName "xubuntuWAN-alex.local" -IPv4Address "10.0.17.100" -ZoneName 
-                              "alex.local"  -AgeRecord -AllowUpdateAny -Force
+-	name:  add upstream dns
+  win_dns_client:
+    adapter_names: ‘*’
+      ipv4_addresses:
+      - ’10.0.17.4’
+-	name: Create blue1 OU
+  community.windows.win_domain_ou:
+   name: blue1
+    path: “DC=blue1,DC=local”
+    state: present
+-	name: Create Accounts sub OU
+  community.windows.win_domain_ou:
+    name: Accounts
+    path: “OU=blue1,DC=blue1,DC=local”
+    state: present
+-	name: Create Groups sub OU to Accounts
+  community.windows.win_domain_ou:
+    name: Groups
+    path: “OU=blue1,OU=Accounts,DC=blue1,DC=local”
+    state: present
+-	name: Create Computers sub OU
+  community.windows.win_domain_ou:
+  name: Computers
+  path: “OU=blue1,DC=blue1,DC=local”
+  state: present
+-	name: Create Servers sub OU to Conmputers
+  community.windows.win_domain_ou:
+    name: Servers
+    path: “OU=blue1,OU=Computers,DC=blue1,DC=local”
+    state: present
+-	name: Create Workstations sub OU to Computers
+  community.windows.win_domain_ou:
+    name: Workstations
+    path: “OU=blue1,OU=Computers,DC=blue1,DC=local”
+    state: present
